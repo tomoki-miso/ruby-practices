@@ -11,12 +11,12 @@ class Frame
     @result = nil
   end
 
-  def isStrike?
+  def strike?
     scores.first == 'X'
   end
 
-  def isSpare?
-    frame_score == 10 && !isStrike?
+  def spare?
+    frame_score == 10 && !strike?
   end
 
   def frame_score
@@ -72,10 +72,10 @@ frame_hash.each do |index, frame|
   frame.result =
     if index == 9
       frame.frame_score
-    elsif frame.isStrike?
+    elsif frame.strike?
       frame.frame_score + nexts[0].to_i + nexts[1].to_i
 
-    elsif frame.isSpare?
+    elsif frame.spare?
       frame.frame_score + nexts[0].to_i
 
     else
