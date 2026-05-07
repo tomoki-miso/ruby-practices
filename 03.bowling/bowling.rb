@@ -28,15 +28,15 @@ def next_rolls(frames, start_index)
 end
 
 score = ARGV[0]
-scores = score.split(",")
+scores = score.split(',')
 shots = []
 
 scores.each do |s|
-  shots << if s == "X"
-    10
-  else
-    s.to_i
-  end
+  shots << if s == 'X'
+             10
+           else
+             s.to_i
+           end
 end
 
 frames = []
