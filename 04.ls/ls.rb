@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
 
+COLUMN_SIZE = 3
+
 def print_formatted_array(array)
-  column_size = 3
-  row_size = (array.size.to_f / column_size).ceil
+  row_size = (array.size.to_f / COLUMN_SIZE).ceil
 
   chunks = array.each_slice(row_size).to_a
 
