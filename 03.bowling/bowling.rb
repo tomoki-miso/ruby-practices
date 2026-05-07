@@ -84,4 +84,4 @@ frame_hash.each do |index, frame|
 
   total += frame.result
 end
-p total
+puts total
