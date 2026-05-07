@@ -2,10 +2,10 @@
 
 COLUMN_SIZE = 3
 
-def print_formatted_array(array)
-  row_size = (array.size.to_f / COLUMN_SIZE).ceil
+def print_formatted_entries(entries)
+  row_size = (entries.size.to_f / COLUMN_SIZE).ceil
 
-  chunks = array.each_slice(row_size).to_a
+  chunks = entries.each_slice(row_size).to_a
 
   row_size.times do |row_index|
     line = chunks.map { |chunk| chunk[row_index] }
@@ -13,4 +13,4 @@ def print_formatted_array(array)
   end
 end
 
-print_formatted_array(Dir.glob("*").sort)
+print_formatted_entries(Dir.glob("*").sort)
