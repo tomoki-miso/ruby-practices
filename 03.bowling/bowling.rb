@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# フレームのクラスを定義
 class Frame
   attr_accessor :result
   attr_reader :scores
@@ -20,8 +19,17 @@ class Frame
   end
 
   def frame_score
-    scores.map { |s| s == 'X' ? 10 : s.to_i }.sum
+    scores.map { |s| roll_score(s) }.sum
   end
+
+  def roll_score(roll)
+    roll == 'X' ? 10 : roll.to_i
+  end
+end
+
+
+def next_rolls(frames, start_index)
+  frames[(start_index + 1)..]&.flatten || []
 end
 
 score = ARGV[0]
@@ -46,42 +54,24 @@ while frames.size > 10
   frames.delete_at(10)
 end
 
-frame_hash = {}
-
-# 各フレームを　hash, Frame にして扱いやすくする
-frames.size.times do |index|
-  frame_hash[index] = Frame.new(scores: frames[index])
-end
-
-# 次と次の投球を得るために、次と次のフレームの中身を取り出す
-# 次と次の投球なのは、ストライクが2回続いたときのために多めに取っている
-def next_rolls(frame_hash, start_index)
-  tmp =
-    frame_hash[start_index + 1]&.scores.to_a +
-    frame_hash[start_index + 2]&.scores.to_a
-
-  tmp.map { |roll| roll == 'X' ? 10 : roll.to_i }
-end
-
 total = 0
 
-# フレームごとに得点計算
-frame_hash.each do |index, frame|
-  nexts = next_rolls(frame_hash, index)
+frames.each_with_index do |frame_scores, index|
+  frame = Frame.new(scores: frame_scores)
+  nexts = next_rolls(frames, index)
 
   frame.result =
     if index == 9
       frame.frame_score
     elsif frame.strike?
-      frame.frame_score + nexts[0].to_i + nexts[1].to_i
-
+      frame.frame_score + frame.roll_score(nexts[0]) + frame.roll_score(nexts[1])
     elsif frame.spare?
-      frame.frame_score + nexts[0].to_i
-
+      frame.frame_score + frame.roll_score(nexts[0])
     else
       frame.frame_score
     end
 
   total += frame.result
 end
+
 puts total
