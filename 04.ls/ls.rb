@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'optparse'
 
 COLUMN_SIZE = 3
 
@@ -18,8 +19,10 @@ def print_formatted_entries(entries)
       item.ljust(column_widths[column_index])
     end
 
-    puts line.compact.join("  ")
+    puts line.compact.join('  ')
   end
 end
 
-print_formatted_entries(Dir.glob("*").sort)
+params = ARGV.getopts('a')
+
+print_formatted_entries(Dir.glob('*', params['a'] ? File::FNM_DOTMATCH : 0).sort)
