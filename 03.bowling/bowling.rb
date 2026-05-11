@@ -57,19 +57,15 @@ frames << Frame.new(scores: shots[shot_index..])
 
 total = frames.each_with_index.sum do |frame, index|
   nexts = next_rolls(frames, index)
-  p "nexts: #{nexts}"
   each_frame_score = frame.frame_score
 
-  frame.result =
-    if index == 9
-      each_frame_score
-    elsif frame.strike?
-      each_frame_score + nexts[0] + nexts[1]
-    elsif frame.spare?
-      each_frame_score + nexts[0]
-    else
-      each_frame_score
-    end
+  frame.result = frame.frame_score + 
+  case
+  when index == 9 then 0
+  when frame.strike? then nexts[0] + nexts[1]
+  when frame.spare?  then nexts[0]
+  else 0
+  end
 end
 
 puts total
