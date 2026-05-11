@@ -60,32 +60,31 @@ def print_long_format(entries)
   rows = entries.map do |entry|
     stat = File.lstat(entry)
     {
-      mode:  "#{ftype_to_string(stat.ftype)}#{mode_to_string(stat.mode)}",
+      mode: "#{ftype_to_string(stat.ftype)}#{mode_to_string(stat.mode)}",
       nlink: stat.nlink.to_s,
-      user:  Etc.getpwuid(stat.uid).name,
+      user: Etc.getpwuid(stat.uid).name,
       group: Etc.getgrgid(stat.gid).name,
-      size:  stat.size.to_s,
+      size: stat.size.to_s,
       mtime: stat.mtime.strftime('%b %e %R'),
-      name:  entry,
+      name: entry,
       block: stat.blocks
     }
   end
 
   widths = {
     nlink: rows.map { |r| r[:nlink].length }.max,
-    user:  rows.map { |r| r[:user].length }.max,
+    user: rows.map { |r| r[:user].length }.max,
     group: rows.map { |r| r[:group].length }.max,
-    size:  rows.map { |r| r[:size].length }.max
+    size: rows.map { |r| r[:size].length }.max
   }
 
-  puts "total #{rows.sum { |r| r[:block]}}"
+  puts "total #{rows.sum { |r| r[:block] }}"
   rows.each do |r|
     puts "#{r[:mode]} #{r[:nlink].rjust(widths[:nlink])} " \
          "#{r[:user].ljust(widths[:user])} #{r[:group].ljust(widths[:group])} " \
          "#{r[:size].rjust(widths[:size])} #{r[:mtime]} #{r[:name]}"
   end
 end
-
 
 params = ARGV.getopts('l')
 entries = Dir.glob('*')
