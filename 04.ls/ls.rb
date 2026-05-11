@@ -12,7 +12,7 @@ def print_formatted_entries(entries)
   end
 
   row_size.times do |row_index|
-    line = chunks.each_with_index.map do |chunk, column_index|
+    line = chunks.map.with_index do |chunk, column_index|
       item = chunk[row_index]
       next nil unless item
 
