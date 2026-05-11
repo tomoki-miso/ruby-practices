@@ -28,32 +28,23 @@ def next_rolls(frames, start_index)
 end
 
 score = ARGV[0]
-scores = score.split(',')
-shots = []
-
-scores.each do |s|
-  shots << if s == 'X'
-             10
-           else
-             s.to_i
-           end
-end
+scores = score.split(',').map { |s| s == 'X' ? 10 : s.to_i }
 
 frames = []
 
 shot_index = 0
 9.times do
-  if shots[shot_index] == 10
+  if scores[shot_index] == 10
     frames << Frame.new(scores: [10])
     shot_index += 1
   else
-    frames << Frame.new(scores: shots[shot_index, 2])
+    frames << Frame.new(scores: scores[shot_index, 2])
     shot_index += 2
   end
 end
 
 # 10フレーム目は残り全部
-frames << Frame.new(scores: shots[shot_index..])
+frames << Frame.new(scores: scores[shot_index..])
 
 total = frames.each_with_index.sum do |frame, index|
   nexts = next_rolls(frames, index)
