@@ -25,4 +25,5 @@ end
 
 params = ARGV.getopts('a')
 
-print_formatted_entries(Dir.glob('*', params['a'] ? File::FNM_DOTMATCH : 0).sort)
+file_type = params['a'] ? File::FNM_DOTMATCH : 0
+print_formatted_entries(Dir.glob('*', file_type).sort)
