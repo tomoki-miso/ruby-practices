@@ -23,7 +23,11 @@ def print_formatted_entries(entries)
   end
 end
 
-params = ARGV.getopts('a')
+def main
+  params = ARGV.getopts('a')
 
-file_type = params['a'] ? File::FNM_DOTMATCH : 0
-print_formatted_entries(Dir.glob('*', file_type).sort)
+  file_type = params['a'] ? File::FNM_DOTMATCH : 0
+  print_formatted_entries(Dir.glob('*', file_type).sort)
+end
+
+main
