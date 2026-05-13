@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require 'optparse'
 
 COLUMN_SIZE = 3
@@ -26,8 +28,9 @@ end
 def main
   params = ARGV.getopts('a')
 
-  file_type = params['a'] ? File::FNM_DOTMATCH : 0
-  print_formatted_entries(Dir.glob('*', file_type).sort)
+  flags = params['a'] ? File::FNM_DOTMATCH : 0
+  entries = Dir.glob('*', flags).sort
+  print_formatted_entries(entries)
 end
 
 main
