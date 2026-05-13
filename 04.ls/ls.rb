@@ -23,10 +23,14 @@ def print_formatted_entries(entries)
   end
 end
 
-params = ARGV.getopts('r')
+def main
+  params = ARGV.getopts('r')
 
-entries = Dir.glob('*')
+  entries = Dir.glob('*')
 
-entries.reverse! if params['r']
+  entries.reverse! if params['r']
 
-print_formatted_entries(entries)
+  print_formatted_entries(entries)
+end
+
+main
