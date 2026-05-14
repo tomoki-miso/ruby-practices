@@ -26,7 +26,7 @@ def print_formatted_entries(entries)
 end
 
 def main
-  params = ARGV.getopts('r:a')
+  params = ARGV.getopts('ra')
 
   flags = params['a'] ? File::FNM_DOTMATCH : 0
   entries = Dir.glob('*', flags).sort
