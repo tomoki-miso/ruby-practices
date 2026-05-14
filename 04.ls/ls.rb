@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
 
 COLUMN_SIZE = 3
 
@@ -11,15 +14,23 @@ def print_formatted_entries(entries)
   end
 
   row_size.times do |row_index|
-    line = chunks.each_with_index.map do |chunk, column_index|
+    line = chunks.map.with_index do |chunk, column_index|
       item = chunk[row_index]
       next nil unless item
 
       item.ljust(column_widths[column_index])
     end
 
-    puts line.compact.join("  ")
+    puts line.compact.join('  ')
   end
 end
 
-print_formatted_entries(Dir.glob("*").sort)
+def main
+  params = ARGV.getopts('a')
+
+  flags = params['a'] ? File::FNM_DOTMATCH : 0
+  entries = Dir.glob('*', flags).sort
+  print_formatted_entries(entries)
+end
+
+main
