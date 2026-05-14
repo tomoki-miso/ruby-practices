@@ -3,11 +3,11 @@
 
 def fizzbuzz(number)
   if (number % 3).zero? && (number % 5).zero?
-    'FizzBuzz'
+    "FizzBuzz"
   elsif (number % 3).zero?
-    'Fizz'
+    "Fizz"
   elsif (number % 5).zero?
-    'Buzz'
+    "Buzz"
   else
     number
   end
