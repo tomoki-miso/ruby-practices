@@ -31,7 +31,7 @@ def main
   flags = params['a'] ? File::FNM_DOTMATCH : 0
   entries = Dir.glob('*', flags).sort
 
-  entries.reverse! if params['r']
+  entries = entries.reverse if params['r']
 
 
   print_formatted_entries(entries)
