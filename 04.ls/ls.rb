@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 require 'etc'
+
 require 'optparse'
 
 COLUMN_SIZE = 3
@@ -45,7 +47,7 @@ def print_formatted_entries(entries)
   end
 
   row_size.times do |row_index|
-    line = chunks.each_with_index.map do |chunk, column_index|
+    line = chunks.map.with_index do |chunk, column_index|
       item = chunk[row_index]
       next nil unless item
 
@@ -72,6 +74,7 @@ def print_long_format(entries)
   end
 
   widths = {
+    mode: rows.map { |r| r[:mode].length }.max,
     nlink: rows.map { |r| r[:nlink].length }.max,
     user: rows.map { |r| r[:user].length }.max,
     group: rows.map { |r| r[:group].length }.max,
@@ -80,17 +83,26 @@ def print_long_format(entries)
 
   puts "total #{rows.sum { |r| r[:block] }}"
   rows.each do |r|
-    puts "#{r[:mode]} #{r[:nlink].rjust(widths[:nlink])} " \
+    puts "#{r[:mode].ljust(widths[:mode])} #{r[:nlink].rjust(widths[:nlink])} " \
          "#{r[:user].ljust(widths[:user])} #{r[:group].ljust(widths[:group])} " \
          "#{r[:size].rjust(widths[:size])} #{r[:mtime]} #{r[:name]}"
   end
 end
 
-params = ARGV.getopts('l')
-entries = Dir.glob('*')
 
-if params['l']
-  print_long_format(entries)
-else
-  print_formatted_entries(entries)
+def main
+  params = ARGV.getopts('ral')
+
+  flags = params['a'] ? File::FNM_DOTMATCH : 0
+  entries = Dir.glob('*', flags).sort
+
+  ordered_entries = params['r'] ? entries.reverse : entries
+
+  if params['l']
+    print_long_format(ordered_entries)
+  else
+    print_formatted_entries(ordered_entries)
+  end
 end
+
+main
