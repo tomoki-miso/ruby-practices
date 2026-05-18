@@ -72,13 +72,7 @@ def print_long_format(entries)
     }
   end
 
-  widths = {
-    mode: rows.map { |r| r[:mode].length }.max,
-    nlink: rows.map { |r| r[:nlink].length }.max,
-    user: rows.map { |r| r[:user].length }.max,
-    group: rows.map { |r| r[:group].length }.max,
-    size: rows.map { |r| r[:size].length }.max
-  }
+  widths = %i[mode nlink user group size].to_h { |k| [k, rows.map { |r| r[k].length }.max] }
 
   puts "total #{rows.sum { |r| r[:block] }}"
   rows.each do |r|
