@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+
 require 'etc'
 
 require 'optparse'
@@ -18,9 +19,7 @@ MODE_MAP = {
 }.freeze
 
 def mode_to_string(mode)
-  # パーミッションの3-5桁目を取得
-  # OS でも冒頭の'100'は省いた形を変換されているため
-  mode.to_s(8)[3..5].chars.map { |char| MODE_MAP[char] }.join
+  format('%03o', mode & 0o777).chars.map { |c| MODE_MAP[c] }.join
 end
 
 FTYPE_MAP = {
@@ -88,7 +87,6 @@ def print_long_format(entries)
          "#{r[:size].rjust(widths[:size])} #{r[:mtime]} #{r[:name]}"
   end
 end
-
 
 def main
   params = ARGV.getopts('ral')
