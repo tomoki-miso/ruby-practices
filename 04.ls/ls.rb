@@ -32,10 +32,6 @@ FTYPE_MAP = {
   'unknown' => '?'
 }.freeze
 
-def ftype_to_string(ftype)
-  FTYPE_MAP[ftype]
-end
-
 def print_formatted_entries(entries)
   row_size = (entries.size.to_f / COLUMN_SIZE).ceil
   chunks = entries.each_slice(row_size).to_a
@@ -60,7 +56,7 @@ def print_long_format(entries)
   rows = entries.map do |entry|
     stat = File.lstat(entry)
     {
-      mode: "#{ftype_to_string(stat.ftype)}#{mode_to_string(stat.mode)}",
+      mode: "#{FTYPE_MAP[stat.ftype]}#{mode_to_string(stat.mode)}",
       nlink: stat.nlink.to_s,
       user: Etc.getpwuid(stat.uid).name,
       group: Etc.getgrgid(stat.gid).name,
