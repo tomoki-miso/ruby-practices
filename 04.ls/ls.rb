@@ -64,8 +64,17 @@ def print_formatted_entries(entries)
 end
 
 def print_long_format(entries)
-  rows = entries.map do |entry|
+  rows = build_long_format_rows(entries)
+  widths = column_widths(rows)
+
+  puts "total #{rows.sum { |row| row[:block] }}"
+  rows.each { |row| puts format_long_format_row(row, widths) }
+end
+
+def build_long_format_rows(entries)
+  entries.map do |entry|
     stat = File.lstat(entry)
+
     {
       mode: "#{FTYPE_MAP[stat.ftype]}#{mode_to_string(stat.mode)}",
       nlink: stat.nlink.to_s,
@@ -77,22 +86,24 @@ def print_long_format(entries)
       block: stat.blocks
     }
   end
-
-  widths = %i[mode nlink user group size].to_h { |k| [k, rows.map { |r| r[k].length }.max] }
-
-  puts "total #{rows.sum { |r| r[:block] }}"
-  rows.each do |r|
-  columns = [
-    r[:mode].ljust(widths[:mode]),
-    r[:nlink].rjust(widths[:nlink]),
-    r[:user].ljust(widths[:user]),
-    r[:group].ljust(widths[:group]),
-    r[:size].rjust(widths[:size]),
-    r[:mtime],
-    r[:name]
-  ]
-  puts columns.join(' ')
 end
+
+def column_widths(rows)
+  %i[mode nlink user group size].to_h do |key|
+    [key, rows.map { |row| row[key].length }.max]
+  end
+end
+
+def format_long_format_row(row, widths)
+  [
+    row[:mode].ljust(widths[:mode]),
+    row[:nlink].rjust(widths[:nlink]),
+    row[:user].ljust(widths[:user]),
+    row[:group].ljust(widths[:group]),
+    row[:size].rjust(widths[:size]),
+    row[:mtime],
+    row[:name]
+  ].join(' ')
 end
 
 def mode_to_string(mode)
