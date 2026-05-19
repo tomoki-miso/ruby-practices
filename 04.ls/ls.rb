@@ -82,10 +82,17 @@ def print_long_format(entries)
 
   puts "total #{rows.sum { |r| r[:block] }}"
   rows.each do |r|
-    puts "#{r[:mode].ljust(widths[:mode])} #{r[:nlink].rjust(widths[:nlink])} " \
-         "#{r[:user].ljust(widths[:user])} #{r[:group].ljust(widths[:group])} " \
-         "#{r[:size].rjust(widths[:size])} #{r[:mtime]} #{r[:name]}"
-  end
+  columns = [
+    r[:mode].ljust(widths[:mode]),
+    r[:nlink].rjust(widths[:nlink]),
+    r[:user].ljust(widths[:user]),
+    r[:group].ljust(widths[:group]),
+    r[:size].rjust(widths[:size]),
+    r[:mtime],
+    r[:name]
+  ]
+  puts columns.join(' ')
+end
 end
 
 def mode_to_string(mode)
