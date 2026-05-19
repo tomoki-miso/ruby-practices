@@ -17,10 +17,6 @@ MODE_MAP = {
   '7' => 'rwx'
 }.freeze
 
-def mode_to_string(mode)
-  format('%03o', mode & 0o777).chars.map { |c| MODE_MAP[c] }.join
-end
-
 FTYPE_MAP = {
   'file' => '-',
   'directory' => 'd',
@@ -31,6 +27,21 @@ FTYPE_MAP = {
   'socket' => 's',
   'unknown' => '?'
 }.freeze
+
+def main
+  params = ARGV.getopts('ral')
+
+  flags = params['a'] ? File::FNM_DOTMATCH : 0
+  entries = Dir.glob('*', flags).sort
+
+  ordered_entries = params['r'] ? entries.reverse : entries
+
+  if params['l']
+    print_long_format(ordered_entries)
+  else
+    print_formatted_entries(ordered_entries)
+  end
+end
 
 def print_formatted_entries(entries)
   row_size = (entries.size.to_f / COLUMN_SIZE).ceil
@@ -77,19 +88,8 @@ def print_long_format(entries)
   end
 end
 
-def main
-  params = ARGV.getopts('ral')
-
-  flags = params['a'] ? File::FNM_DOTMATCH : 0
-  entries = Dir.glob('*', flags).sort
-
-  ordered_entries = params['r'] ? entries.reverse : entries
-
-  if params['l']
-    print_long_format(ordered_entries)
-  else
-    print_formatted_entries(ordered_entries)
-  end
+def mode_to_string(mode)
+  format('%03o', mode & 0o777).chars.map { |c| MODE_MAP[c] }.join
 end
 
 main
