@@ -90,7 +90,8 @@ end
 
 def column_widths(rows)
   %i[mode nlink user group size].to_h do |key|
-    [key, rows.map { |row| row[key].length }.max]
+    width = rows.map { |row| row[key].length }.max
+    [key, width]
   end
 end
 
