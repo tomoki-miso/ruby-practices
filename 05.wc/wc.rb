@@ -32,7 +32,13 @@ def output_counts(options, input, path = nil)
   word_count = input.split.size if no_options || options[:word]
   byte_count = input.bytesize if no_options || options[:byte]
 
-  puts "#{line_count.to_s.rjust(8)}#{word_count.to_s.rjust(8)}#{byte_count.to_s.rjust(8)} #{path}"
+  output = [line_count, word_count, byte_count]
+  
+  output.each do |count|
+    print "#{count.to_s.rjust(8)}"
+  end
+  print " #{path}" if path
+  puts ''
 end
 
 main
