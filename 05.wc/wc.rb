@@ -6,48 +6,66 @@ def main
   opt = OptionParser.new
   options = {}
 
-  opt.on('-w') { |v| options[:word] = v }
-  opt.on('-c') { |v| options[:byte] = v }
-  opt.on('-l') { |v| options[:line] = v }
+  opt.on('-w') { options[:word] = true }
+  opt.on('-c') { options[:byte] = true }
+  opt.on('-l') { options[:line] = true }
   opt.parse!(ARGV)
 
-  file_paths = ARGF.argv
+  file_paths = ARGV
 
-  # ARGF.argvが空の場合は、標準入力から読み込む
   if file_paths.empty?
     input = ARGF.read
-    output_counts(options, input)
+    counts = calculate_counts(input)
+    print_counts(options, counts)
+    return
   end
 
-  file_paths.each do |path|
+  counts_list = file_paths.map do |path|
     input = File.read(path)
-    output_counts(options, input, path)
+    counts = calculate_counts(input, path)
+
+    print_counts(options, counts)
+
+    counts
   end
+
+  print_total_counts(options, counts_list) if counts_list.size >= 2
 end
 
-def output_counts(options, input, path = nil)
-  no_options = options.empty?
-  converted_options = no_options ? { line: true, word: true, byte: true } : options
+def print_counts(options, counts)
+  selected_options = options.empty? ? { line: true, word: true, byte: true } : options
   output = []
 
-  output << calculate_counts(input)[:line] if converted_options[:line]
-  output << calculate_counts(input)[:word] if converted_options[:word]
-  output << calculate_counts(input)[:byte] if converted_options[:byte]
+  output << counts[:line] if selected_options[:line]
+  output << counts[:word] if selected_options[:word]
+  output << counts[:byte] if selected_options[:byte]
 
   output.each do |count|
     print count.to_s.rjust(8)
   end
 
-  print " #{path}" if path
-  puts ''
+  print " #{counts[:path]}" if counts[:path]
+  puts
 end
 
-def calculate_counts(input)
+def calculate_counts(input, path = nil)
   {
     line: input.lines.size,
     word: input.split.size,
-    byte: input.bytesize
+    byte: input.bytesize,
+    path: path
   }
+end
+
+def print_total_counts(options, counts_list)
+  total_counts = {
+    line: counts_list.sum { |counts| counts[:line] },
+    word: counts_list.sum { |counts| counts[:word] },
+    byte: counts_list.sum { |counts| counts[:byte] },
+    path: 'total'
+  }
+
+  print_counts(options, total_counts)
 end
 
 main
