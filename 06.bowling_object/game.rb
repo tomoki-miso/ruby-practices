@@ -19,7 +19,7 @@ class Game
     end
 
     # 10フレーム目は残り全部
-    @frames << Frame.new(scores: shots[shot_index..].map(&:pin), last: true)
+    @frames << Frame.new(scores: shots[shot_index..].map(&:pin))
   end
 
   def total_score

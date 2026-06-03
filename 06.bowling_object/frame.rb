@@ -3,9 +3,8 @@
 class Frame
   attr_reader :scores
 
-  def initialize(scores:, last: false)
+  def initialize(scores:)
     @scores = scores
-    @last = last
   end
 
   def strike?
@@ -27,7 +26,7 @@ class Frame
   private
 
   def bonus_score(next_rolls)
-    if @last
+    if next_rolls.empty?
       0
     elsif strike?
       next_rolls[0] + next_rolls[1]
