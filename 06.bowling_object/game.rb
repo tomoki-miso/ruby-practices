@@ -3,7 +3,6 @@
 require_relative 'frame'
 
 class Game
-  attr_reader :frames
 
   def initialize(shots:)
     shot_index = 0
@@ -23,8 +22,8 @@ class Game
   end
 
   def total_score
-    frames.each_with_index.sum do |frame, frame_number|
-      nexts = next_rolls(frames, frame_number)
+    @frames.each_with_index.sum do |frame, frame_number|
+      nexts = next_rolls(@frames, frame_number)
       frame.score(nexts)
     end
   end
