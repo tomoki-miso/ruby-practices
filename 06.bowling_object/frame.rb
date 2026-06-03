@@ -12,7 +12,7 @@ class Frame
   end
 
   def spare?
-    scores.size == 2 && scores[0] + scores[1] == 10 && !strike?
+    scores[0] + scores[1] == 10 && !strike?
   end
 
   def frame_score
