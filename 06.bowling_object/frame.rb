@@ -19,7 +19,7 @@ class Frame
     scores.sum
   end
 
-  def score_with_bonus(next_rolls)
+  def score(next_rolls)
     frame_score + bonus_score(next_rolls)
   end
 

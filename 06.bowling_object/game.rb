@@ -25,7 +25,7 @@ class Game
   def total_score
     frames.each_with_index.sum do |frame, frame_number|
       nexts = next_rolls(frames, frame_number)
-      frame.score_with_bonus(nexts)
+      frame.score(nexts)
     end
   end
 
