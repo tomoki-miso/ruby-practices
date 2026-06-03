@@ -23,14 +23,14 @@ class Game
 
   def total_score
     @frames.each_with_index.sum do |frame, frame_number|
-      nexts = next_rolls(@frames, frame_number)
+      nexts = next_rolls(frame_number)
       frame.score(nexts)
     end
   end
 
   private
 
-  def next_rolls(frames, start_index)
-    frames.drop(start_index + 1).flat_map(&:scores)
+  def next_rolls(start_index)
+    @frames.drop(start_index + 1).flat_map(&:scores)
   end
 end
