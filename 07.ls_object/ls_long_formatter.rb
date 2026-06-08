@@ -12,7 +12,7 @@ class LsLongFormatter
 
     puts "total #{@entries.sum(&:blocks)}"
 
-    @entries.each { |entry| puts format_long_format_row(entry, widths) }
+    @entries.each { |entry| puts long_format_row(entry, widths) }
   end
 
   private
@@ -24,7 +24,7 @@ class LsLongFormatter
     end
   end
 
-  def format_long_format_row(entry, widths)
+  def long_format_row(entry, widths)
     [
       entry.mode.ljust(widths[:mode]),
       entry.nlink.rjust(widths[:nlink]),
