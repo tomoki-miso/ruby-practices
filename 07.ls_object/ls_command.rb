@@ -3,6 +3,7 @@
 
 require_relative 'ls_long_formatter'
 require_relative 'ls_short_formatter'
+require_relative 'entry'
 
 class LsCommand
   attr_reader :printer
