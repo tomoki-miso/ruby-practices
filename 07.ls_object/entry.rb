@@ -30,11 +30,11 @@ class Entry
   def initialize(name)
     @name = name
     stat = File.lstat(@name)
-    @mode =  "#{FTYPE_MAP.fetch(stat.ftype)}#{mode_to_string(stat.mode)}"
+    @mode = "#{FTYPE_MAP.fetch(stat.ftype)}#{mode_to_string(stat.mode)}"
     @nlink = stat.nlink.to_s
     @user = Etc.getpwuid(stat.uid).name
     @group = Etc.getgrgid(stat.gid).name
-    @size =  stat.size.to_s
+    @size = stat.size.to_s
     @mtime = stat.mtime.strftime('%b %e %R')
     @blocks = stat.blocks
   end
