@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class LsShortFormatter
+  COLUMN_SIZE = 3
   def initialize(entries)
     @entries = entries
   end
-  COLUMN_SIZE = 3
 
   def print_entries
     row_size = (@entries.size.to_f / COLUMN_SIZE).ceil
