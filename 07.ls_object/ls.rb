@@ -6,7 +6,7 @@ require_relative 'ls_command'
 
 def main
   params = ARGV.getopts('ral')
-  LsCommand.new(params).execute
+  LsCommand.new(all: params['a'], reverse: params['r'], long: params['l']).execute
 end
 
 main

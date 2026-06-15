@@ -3,21 +3,17 @@
 require_relative 'entry'
 
 class LsLongFormatter
-  def initialize(entries)
-    @entries = entries
-  end
-
-  def print_entries
-    puts "total #{@entries.sum(&:blocks)}"
-    widths = column_widths
-    @entries.each { |entry| puts long_format_row(entry, widths) }
+  def print_entries(entries)
+    puts "total #{entries.sum(&:blocks)}"
+    widths = column_widths(entries)
+    entries.each { |entry| puts long_format_row(entry, widths) }
   end
 
   private
 
-  def column_widths
+  def column_widths(entries)
     %i[mode nlink user group size].to_h do |key|
-      width = @entries.map { |entry| entry.public_send(key).to_s.length }.max
+      width = entries.map { |entry| entry.public_send(key).to_s.length }.max
       [key, width]
     end
   end
