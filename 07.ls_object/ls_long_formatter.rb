@@ -8,10 +8,8 @@ class LsLongFormatter
   end
 
   def print_entries
-    widths = column_widths
-
     puts "total #{@entries.sum(&:blocks)}"
-
+    widths = column_widths
     @entries.each { |entry| puts long_format_row(entry, widths) }
   end
 
