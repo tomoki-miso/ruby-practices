@@ -7,14 +7,15 @@ require_relative 'entry'
 
 class LsCommand
   def initialize(params)
-    flags = params['a'] ? File::FNM_DOTMATCH : 0
-    names = Dir.glob('*', flags).sort
-    names = params['r'] ? names.reverse : names
-    entries = names.map { |name| Entry.new(name) }
-    @formatter = params['l'] ? LsLongFormatter.new(entries) : LsShortFormatter.new(entries)
+    @params = params
   end
 
   def execute
-    @formatter.print_entries
+    flags = @params['a'] ? File::FNM_DOTMATCH : 0
+    names = Dir.glob('*', flags).sort
+    names = @params['r'] ? names.reverse : names
+    entries = names.map { |name| Entry.new(name) }
+    formatter = @params['l'] ? LsLongFormatter.new(entries) : LsShortFormatter.new(entries)
+    formatter.print_entries
   end
 end
