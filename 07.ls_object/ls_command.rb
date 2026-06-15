@@ -6,7 +6,6 @@ require_relative 'ls_short_formatter'
 require_relative 'entry'
 
 class LsCommand
-  attr_reader :printer
 
   def initialize(params)
     flags = params['a'] ? File::FNM_DOTMATCH : 0
