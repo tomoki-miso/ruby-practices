@@ -33,11 +33,11 @@ class Entry
   end
 
   def mode = "#{FTYPE_MAP.fetch(@stat.ftype)}#{mode_to_string(@stat.mode)}"
-  def nlink = @stat.nlink.to_s
+  def nlink = @stat.nlink
   def user = Etc.getpwuid(@stat.uid).name
   def group = Etc.getgrgid(@stat.gid).name
-  def size = @stat.size.to_s
-  def mtime = @stat.mtime.strftime('%b %e %R')
+  def size = @stat.size
+  def mtime = @stat.mtime
   def blocks = @stat.blocks
 
 
