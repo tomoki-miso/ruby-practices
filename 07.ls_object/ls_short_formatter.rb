@@ -2,13 +2,13 @@
 
 class LsShortFormatter
   COLUMN_SIZE = 3
-  
+
   def initialize(entries)
     @entries = entries
   end
 
   def print_entries
-    row_size = (@entries.size.to_f / COLUMN_SIZE).ceil
+    row_size = @entries.size.to_f.ceildiv(COLUMN_SIZE)
     chunks = @entries.each_slice(row_size).to_a
 
     column_widths = chunks.map do |chunk|
