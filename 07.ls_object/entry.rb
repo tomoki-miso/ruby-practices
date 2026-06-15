@@ -3,7 +3,7 @@
 require 'etc'
 
 class Entry
-  attr_reader :name, :mode, :nlink, :user, :group, :size, :mtime, :blocks
+  attr_reader :name
 
   MODE_MAP = {
     '0' => '---',
