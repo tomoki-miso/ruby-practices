@@ -2,6 +2,7 @@
 
 class LsShortFormatter
   COLUMN_SIZE = 3
+  
   def initialize(entries)
     @entries = entries
   end

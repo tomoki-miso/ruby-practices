@@ -40,7 +40,6 @@ class Entry
   def mtime = @stat.mtime
   def blocks = @stat.blocks
 
-
   private
 
   def mode_to_string(mode)

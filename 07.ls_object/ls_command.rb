@@ -6,7 +6,6 @@ require_relative 'ls_short_formatter'
 require_relative 'entry'
 
 class LsCommand
-
   def initialize(params)
     flags = params['a'] ? File::FNM_DOTMATCH : 0
     names = Dir.glob('*', flags).sort
